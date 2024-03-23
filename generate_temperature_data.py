@@ -6,7 +6,7 @@ def generate_temperature_data(start_date, end_date, anomalies_probability, noise
     date_range = pd.date_range(start=start_date, end=end_date, freq='D')
     temperature_data = []
 
-    previous_temperature = 0  # Для хранения предыдущей температуры
+    previous_temperature = 0  
 
     for date in date_range:
         temperature = 0
@@ -25,12 +25,10 @@ def generate_temperature_data(start_date, end_date, anomalies_probability, noise
         if random.uniform(0, 1) < anomalies_probability:
             temperature += random.uniform(-5, 5)
 
-        # Ограничение разницы температуры между соседними днями
         temperature = min(max(previous_temperature - 5, temperature), previous_temperature + 5)
 
         temperature += random.uniform(-noise_level, noise_level)
 
-        # Генерация атмосферного давления в зависимости от температуры с добавлением случайного шума
         if temperature < 0:
             pressure = random.uniform(970, 1010) + random.uniform(-5, 5)
         elif temperature >= 0 and temperature < 20:
@@ -38,13 +36,10 @@ def generate_temperature_data(start_date, end_date, anomalies_probability, noise
         else:
             pressure = random.uniform(990, 1030) + random.uniform(-5, 5)
 
-        # Генерация скорости ветра с добавлением случайного шума
         wind_speed = random.uniform(0, 30) + random.uniform(-5, 5)
 
-        # Генерация влажности с добавлением случайного шума
         humidity = random.uniform(0, 100) + random.uniform(-10, 10)
 
-        # Генерация осадков в мм с добавлением случайного шума
         precipitation = random.uniform(0, 50) + random.uniform(-10, 10)
 
         temperature = round(temperature)
@@ -56,7 +51,7 @@ def generate_temperature_data(start_date, end_date, anomalies_probability, noise
         temperature_data.append({'date': date, 'temperature': temperature, 'pressure': pressure,
                                  'wind_speed': wind_speed, 'humidity': humidity, 'precipitation': precipitation})
 
-        previous_temperature = temperature  # Обновляем предыдущую температуру
+        previous_temperature = temperature  
 
     return temperature_data
 
